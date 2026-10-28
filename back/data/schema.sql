@@ -1,7 +1,5 @@
--- Database schema
-
 create table users(
-	id uuid primary key not null default gen_random_uuid(),
+	id uuid primary key default gen_random_uuid(),
 	email text not null unique,
 	username text not null unique,
 	password_hash text not null,
