@@ -40,6 +40,45 @@ export async function signup(req, res) {
   }
 }
 
+// Compared against when the email is unknown, so a missing account takes
+// as long to reject as a wrong password and can't be detected by timing.
+const DUMMY_HASH = bcrypt.hashSync('dummy-password', SALT_ROUNDS)
+
 export async function signin(req, res) {
-  res.status(501).json({ message: 'Sign in is not implemented yet' })
+  const { email, password } = req.body
+
+  try {
+    const { rows } = await pool.query(
+      `select id, email, username, password_hash, display_name, avatar_url, email_verified
+       from users
+       where email = $1`,
+      [email],
+    )
+    const user = rows[0]
+
+    const passwordMatches = await bcrypt.compare(password, user?.password_hash ?? DUMMY_HASH)
+
+    // Same response for unknown email and wrong password, so it doesn't reveal
+    // which emails have accounts.
+    if (!user || !passwordMatches) {
+      return res.status(401).json({ message: 'Invalid email or password' })
+    }
+
+    const { rows: updated } = await pool.query(
+      `update users
+       set last_login_at = now(), updated_at = now()
+       where id = $1
+       returning last_login_at`,
+      [user.id],
+    )
+
+    const { password_hash, ...publicUser } = user
+    res.json({
+      message: 'Signed in',
+      user: { ...publicUser, last_login_at: updated[0].last_login_at },
+    })
+  } catch (err) {
+    console.error('Signin failed', err)
+    res.status(500).json({ message: 'Something went wrong, please try again' })
+  }
 }
