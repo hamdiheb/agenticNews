@@ -1,0 +1,35 @@
+.article-card {
+  border-top: 1px solid var(--color-iron);
+
+  a {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--spacing-24);
+    padding: var(--spacing-24) 0;
+
+    &:hover {
+      box-shadow: var(--shadow-subtle);
+    }
+  }
+
+  h3 {
+    font-size: var(--text-heading-sm);
+    font-weight: 700;
+    line-height: 1.3;
+    letter-spacing: 0.02em;
+  }
+
+  img {
+    flex-shrink: 0;
+    width: 220px;
+    aspect-ratio: 3 / 2;
+    object-fit: cover;
+    border-radius: var(--radius-images);
+  }
+}
+
+@media (max-width: 720px) {
+  .article-card img {
+    width: 110px;
+  }
+}

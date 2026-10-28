@@ -1,0 +1,29 @@
+.section-card {
+  padding: var(--card-padding);
+  border-radius: var(--radius-cards);
+  color: var(--color-paper);
+
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: var(--spacing-10);
+  }
+
+  &.popular {
+    background: var(--color-ultraviolet);
+  }
+
+  &.podcasts {
+    background: var(--color-heat-red);
+  }
+
+  .numbered-list li + li {
+    border-top-color: rgb(255 255 255 / 0.25);
+  }
+
+  .byline .author,
+  .byline .date {
+    color: rgb(255 255 255 / 0.75);
+  }
+}
