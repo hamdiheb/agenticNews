@@ -1,14 +1,19 @@
 import 'dotenv/config'
 import express from 'express'
 import cors from 'cors'
+import cookieParser from 'cookie-parser'
 import authRouter from './routes/auth.routes.js'
 import { checkConnection } from './data/database.js'
 
 const app = express()
 const PORT = process.env.PORT || 3000
+const CLIENT_URL = process.env.CLIENT_URL || 'http://localhost:5173'
 
-app.use(cors())
+// credentials: true lets the frontend send and receive the session cookie;
+// it requires an explicit origin rather than '*'.
+app.use(cors({ origin: CLIENT_URL, credentials: true }))
 app.use(express.json())
+app.use(cookieParser())
 
 app.use('/v1/auth', authRouter)
 
