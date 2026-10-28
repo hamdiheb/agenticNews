@@ -1,0 +1,35 @@
+.free-card {
+  padding: var(--card-padding);
+  border-radius: var(--radius-cards);
+  background: var(--color-graphite);
+
+  .mono-label {
+    margin-top: var(--spacing-4);
+  }
+
+  ul {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: var(--spacing-20);
+    margin-top: var(--spacing-20);
+  }
+
+  a {
+    display: flex;
+    gap: var(--spacing-16);
+  }
+
+  img {
+    flex-shrink: 0;
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: var(--radius-images);
+  }
+
+  h3 {
+    font-size: var(--text-subheading);
+    font-weight: 700;
+    line-height: 1.3;
+  }
+}
